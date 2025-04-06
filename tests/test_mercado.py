@@ -1,14 +1,21 @@
 import requests
+import sys
+import os
 
-access_token = "APP_USR-3323411277855821-040521-001ec100578fea8c8b5c9fbeb3f13b3d-2123436478"
-produto = "placa de vídeo"
-url = f"https://api.mercadolibre.com/sites/MLB/search?q={produto}"
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-headers = {
-    "Authorization": f"Bearer {access_token}"
-}
 
-response = requests.get(url, headers=headers)
+def buscar_mercado_livre(produto, offset=0, limit=50):
+    url = f'https://api.mercadolibre.com/sites/MLB/search?q={produto}&offset={offset}&limit={limit}'
+    response = requests.get(url)
 
-print(f"Status: {response.status_code}")
-print(response.json())
+    if response.status_code == 200:
+        resultados = response.json()["results"]
+        
+        return resultados
+    else:
+        print(f"Erro ao buscar dados: {response.status_code} - {response.text}")
+        return []
+
+
+buscar_mercado_livre("notebook")

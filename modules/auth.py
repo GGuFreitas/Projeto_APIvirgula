@@ -57,3 +57,18 @@ def obter_token_valido():
 
     except (FileNotFoundError, json.JSONDecodeError):
         return renovar_token()
+
+
+def carregar_token():
+    try:
+        with open("token.json", "r") as f:
+            token_data = json.load(f)
+            return token_data.get("access_token")
+    except FileNotFoundError:
+        print("Arquivo token.json não encontrado.")
+    except Exception as e:
+        print(f"Erro ao carregar token: {e}")
+    
+    return None
+
+carregar_token()

@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import messagebox, ttk
 from modules.mercado_livre import buscar_mercado_livre
 from modules.relatorio import gerar_relatorio_excel, gerar_relatorio_pdf
-from modules.historico import carregar_historico, limpar_historico
+from modules.historico import carregar_historico, limpar_historico, salvar_historico
 import tkinter as tk
 from tkinter import ttk, messagebox
 from PIL import Image, ImageTk
@@ -23,6 +23,8 @@ def buscar():
     global resultados
     resultados = buscar_mercado_livre(produto)
     if resultados:
+        salvar_historico(produto, resultados)  # <- ADICIONE AQUI
+
         tree.delete(*tree.get_children())  # Limpar resultados anteriores
         
         # Convertendo os resultados para um DataFrame do Pandas
